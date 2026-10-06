@@ -2,12 +2,11 @@ mod helper;
 mod input;
 
 use std::fs::File;
-use std::io::Error;
 
 use helper::write_todo;
 use input::read_user_input;
 
-pub fn create(file: Result<File, Error>) {
+pub fn create(file: File) {
     println!("Press [enter] to create new todo");
     match read_user_input() {
         Some(todo) => {
