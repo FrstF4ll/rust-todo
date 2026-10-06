@@ -25,16 +25,20 @@ fn read_user_input() -> Option<String> {
     }
 }
 
+fn create_todo(todo_list: Result<File, Error>, todo: String) {
+    todo_list
+        .unwrap()
+        .write_all(todo.as_bytes())
+        .expect("Failed to write todo");
+    println!("Todo printed successfully")
+}
 fn main() {
     println!("Press [enter] to create new todo");
     match read_user_input() {
         Some(todo) => {
             let todo = format!("{}\n", todo);
             let todo_list = create_todo_list();
-            todo_list
-                .unwrap()
-                .write_all(todo.as_bytes())
-                .expect("Failed to write todo");
+            create_todo(todo_list, todo);
         }
         None => println!("Empty todo, nothing written"),
     };
