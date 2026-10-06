@@ -3,12 +3,12 @@ use std::io::{Error, Write, stdin};
 
 fn create_todo_list() -> Result<File, Error> {
     const TODO_FILE: &str = "todos.txt";
-    let todo_list = OpenOptions::new()
+
+    OpenOptions::new()
         .create(true)
         .read(true)
         .append(true)
-        .open(TODO_FILE);
-    todo_list
+        .open(TODO_FILE)
 }
 
 fn read_user_input() -> Option<String> {
