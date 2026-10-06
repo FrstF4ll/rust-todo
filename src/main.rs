@@ -1,7 +1,7 @@
-use std::fs::{read, read_to_string, File, OpenOptions};
-use std::io::{stdin, Error, Write};
+use std::fs::{File, OpenOptions};
+use std::io::{Error, Write, stdin};
 
-fn create_todo_list() -> Result<File, Error>{
+fn create_todo_list() -> Result<File, Error> {
     const TODO_FILE: &str = "todos.txt";
     let todo_list = OpenOptions::new()
         .create(true)
@@ -11,17 +11,31 @@ fn create_todo_list() -> Result<File, Error>{
     todo_list
 }
 
-fn read_user_input() -> String {
+fn read_user_input() -> Option<String> {
     let mut input = String::new();
-    stdin().read_line(&mut input).expect("Could not read user inputs");
-    input.trim().to_string()
+
+    stdin()
+        .read_line(&mut input)
+        .expect("Could not read user inputs");
+    let trimmed = input.trim();
+    if trimmed.is_empty() {
+        None
+    } else {
+        Some(trimmed.to_string())
+    }
 }
 
 fn main() {
-    let user_input = read_user_input();
-    let todo = format!("{}\n", user_input);
-    let todo_list = create_todo_list();
-    todo_list.unwrap().write_all(todo.as_bytes()).expect("Failed to write todo");
-
-    println!("Todo added !")
+    println!("Press [enter] to create new todo");
+    match read_user_input() {
+        Some(todo) => {
+            let todo = format!("{}\n", todo);
+            let todo_list = create_todo_list();
+            todo_list
+                .unwrap()
+                .write_all(todo.as_bytes())
+                .expect("Failed to write todo");
+        }
+        None => println!("Empty todo, nothing written"),
+    };
 }
