@@ -20,7 +20,9 @@ fn main() {
     let arguments:Vec<String> = args().collect();
     if arguments[1] == "--view" {
         let todos = read_to_string(TODO_FILE).expect("Failed to read list");
-        println!("{todos}");
+        for (line,todo) in todos.lines().enumerate() {
+            println!("{line}:{todo}");
+        }
     } else {
         let todo_list = create_todo_list();
         create(todo_list);
