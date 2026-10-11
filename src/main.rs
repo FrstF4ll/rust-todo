@@ -1,7 +1,7 @@
-use std::fs::{read_to_string, File, OpenOptions};
+use std::fs::{File, OpenOptions};
 use std::env::args;
 
-use crate::todo::create;
+use crate::todo::{create, view};
 mod todo;
 
 const TODO_FILE: &str = "todos.txt";
@@ -15,14 +15,10 @@ pub fn create_todo_list() -> File {
         .expect("Could not open file")
 }
 
-
 fn main() {
     let arguments:Vec<String> = args().collect();
     if arguments[1] == "--view" {
-        let todos = read_to_string(TODO_FILE).expect("Failed to read list");
-        for (line,todo) in todos.lines().enumerate() {
-            println!("{line}:{todo}");
-        }
+        view();
     } else {
         let todo_list = create_todo_list();
         create(todo_list);

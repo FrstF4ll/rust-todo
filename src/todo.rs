@@ -1,10 +1,11 @@
 mod helper;
 mod input;
 
-use std::fs::File;
+use std::fs::{read_to_string, File};
 
 use helper::write_todo;
 use input::read_user_input;
+use crate::TODO_FILE;
 
 pub fn create(file: File) {
     println!("Press [enter] to create new todo");
@@ -15,4 +16,11 @@ pub fn create(file: File) {
         }
         None => println!("Empty todo, nothing written"),
     };
+}
+
+pub fn view() {
+    let todos = read_to_string(TODO_FILE).expect("Failed to read list");
+    for (line,todo) in todos.lines().enumerate() {
+        println!("{line}:{todo}");
+    }
 }
