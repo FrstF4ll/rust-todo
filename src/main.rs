@@ -1,12 +1,11 @@
-use std::fs::{File, OpenOptions};
 use std::env::args;
+use std::fs::{File, OpenOptions};
 
 use crate::todo::{create, view};
 mod todo;
 
 const TODO_FILE: &str = "todos.txt";
 pub fn create_todo_list() -> File {
-
     OpenOptions::new()
         .create(true)
         .read(true)
@@ -16,7 +15,7 @@ pub fn create_todo_list() -> File {
 }
 
 fn main() {
-    let arguments:Vec<String> = args().collect();
+    let arguments: Vec<String> = args().collect();
     if arguments[1] == "--view" {
         view();
     } else {
